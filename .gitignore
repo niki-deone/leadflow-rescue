@@ -6,3 +6,4 @@ dist-before/
 *.local
 .DS_Store
 audit-report.txt
+dist-after/
