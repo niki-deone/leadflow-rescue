@@ -7,3 +7,4 @@ dist-before/
 .DS_Store
 audit-report.txt
 dist-after/
+site/
