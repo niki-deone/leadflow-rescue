@@ -10,4 +10,7 @@ mkdirSync('site/demo', { recursive: true })
 cpSync('dist', 'site/demo', { recursive: true })
 copyFileSync('case.html', 'site/index.html')
 cpSync('case-assets', 'site/case-assets', { recursive: true })
+// The broken "before" build is committed as-is (an exhibit, not a artifact to rebuild:
+// its source lives in the first commit and needs the old bloated deps)
+cpSync('dist-before', 'site/demo-before', { recursive: true })
 console.log('site/ assembled: index.html + case-assets + demo')
