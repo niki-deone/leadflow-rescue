@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI App Rescue: LeadFlow - Before / After case study</title>
+<meta name="description" content="A typical AI-generated CRM with 12 documented problems, systematically audited and repaired. Full before/after breakdown." />
+<style>
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --ink: #20242a;
+    --muted: #6f7480;
+    --line: #e6e2d8;
+    --accent: #0f766e;
+    --accent-soft: #e4f0ee;
+    --danger: #b3403a;
+    --danger-soft: #f7e8e7;
+    --warn: #8a6d1f;
+    --warn-soft: #f5eeda;
+    --radius: 10px;
+    --font-body: ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+    --font-num: ui-monospace, "Cascadia Mono", "Consolas", monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  }
+  .num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 48px 20px 80px; }
+
+  /* hero */
+  .kicker {
+    font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 8px; font-weight: 600;
+  }
+  h1 { font-size: clamp(28px, 5vw, 44px); letter-spacing: -0.02em; margin: 0 0 12px; line-height: 1.15; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 640px; margin: 0 0 24px; }
+  .hero-facts { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .fact {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+    padding: 6px 14px; font-size: 14px;
+  }
+  .fact b { font-family: var(--font-num); }
+
+  /* before/after columns */
+  .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 48px 0; }
+  .col {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 24px; min-width: 0;
+  }
+  .col-label {
+    display: inline-block; font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; font-weight: 700; padding: 4px 12px;
+    border-radius: 999px; margin-bottom: 16px;
+  }
+  .col.before .col-label { background: var(--danger-soft); color: var(--danger); }
+  .col.after .col-label { background: var(--accent-soft); color: var(--accent); }
+  .shot {
+    width: 100%; border: 1px solid var(--line); border-radius: var(--radius);
+    display: block; margin-bottom: 10px; background: #f1efe9;
+  }
+  .shot-placeholder {
+    aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 14px; border-style: dashed;
+  }
+  .shot-caption { font-size: 13px; color: var(--muted); margin: 0 0 20px; }
+  .demo-link {
+    display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
+    padding: 10px 18px; border-radius: var(--radius); font-size: 15px; margin-bottom: 20px;
+  }
+  .demo-link:hover { background: #0c5f59; }
+
+  /* findings list */
+  h2 { font-size: 24px; letter-spacing: -0.01em; margin: 56px 0 8px; }
+  .h2-sub { color: var(--muted); margin: 0 0 24px; }
+  .findings { list-style: none; padding: 0; margin: 0; counter-reset: f; }
+  .findings li {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 14px 16px 14px 54px; margin-bottom: 10px; position: relative; font-size: 15px;
+  }
+  .findings li::before {
+    counter-increment: f; content: counter(f, decimal-leading-zero);
+    position: absolute; left: 16px; top: 15px;
+    font-family: var(--font-num); font-size: 13px; color: var(--muted);
+  }
+  .sev {
+    display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; padding: 2px 8px; border-radius: 999px; margin-right: 8px;
+    vertical-align: 1px;
+  }
+  .sev.blocker { background: var(--danger-soft); color: var(--danger); }
+  .sev.trap { background: var(--warn-soft); color: var(--warn); }
+  .sev.debt { background: #ececec; color: var(--muted); }
+  .findings .fix { display: block; color: var(--accent); font-size: 14px; margin-top: 4px; }
+  .findings .fix::before { content: "→ "; }
+
+  /* metrics table */
+  table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 15px; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: #fcfbf8; }
+  tr:last-child td { border-bottom: none; }
+  td.before-val { color: var(--danger); }
+  td.after-val { color: var(--accent); font-weight: 600; }
+
+  /* method + outro */
+  .method { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+  .step .n { font-family: var(--font-num); color: var(--accent); font-size: 13px; margin: 0 0 4px; }
+  .step p { margin: 0; font-size: 14px; color: var(--muted); }
+  .step h3 { margin: 0 0 4px; font-size: 15px; }
+
+  .outro {
+    margin-top: 56px; background: var(--ink); color: #fff; border-radius: var(--radius);
+    padding: 32px; display: flex; justify-content: space-between; align-items: center;
+    gap: 20px; flex-wrap: wrap;
+  }
+  .outro h2 { margin: 0 0 6px; font-size: 22px; color: #fff; }
+  .outro p { margin: 0; color: rgba(255,255,255,0.7); font-size: 15px; max-width: 520px; }
+  .outro .cta {
+    background: #fff; color: var(--ink); text-decoration: none; padding: 12px 22px;
+    border-radius: var(--radius); font-weight: 600; white-space: nowrap;
+  }
+  .hours { font-family: var(--font-num); color: var(--accent); }
+
+  footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+
+  @media (max-width: 800px) {
+    .ba { grid-template-columns: 1fr; }
+    .method { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .method { grid-template-columns: 1fr; }
+    .wrap { padding: 32px 14px 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="kicker">AI App Rescue - Case Study</p>
+  <h1>A "finished" AI-generated CRM.<br />12 problems the founder couldn't see.</h1>
+  <p class="lede">
+    LeadFlow is a typical vibe-coded app: looks done in a screenshot, falls apart in the first
+    real session. Below is the full rescue - audit, triage, repair - exactly the process I run
+    on client projects.
+  </p>
+  <div class="hero-facts">
+    <span class="fact">Stack: <b>React + Vite</b></span>
+    <span class="fact">Findings: <b>12</b> (3 blockers, 5 traps, 4 debt)</span>
+    <span class="fact">Time: <b class="hours">~8 hours</b></span>
+    <span class="fact">Every fix = <b>1 commit</b></span>
+  </div>
+
+  <div class="ba">
+    <div class="col before">
+      <span class="col-label">Before</span>
+      <img class="shot" src="case-assets/before-desktop.png" alt="Broken app: dark purple glassmorphism dashboard" onerror="this.outerHTML='<div class=&quot;shot shot-placeholder&quot;>before-desktop.png</div>'" />
+      <p class="shot-caption">Default AI look; "Synced to database" toast over data that vanishes on refresh.</p>
+      <img class="shot" src="case-assets/before-mobile.png" alt="Broken mobile view with horizontal overflow" onerror="this.outerHTML='<div class=&quot;shot shot-placeholder&quot;>before-mobile.png</div>'" />
+      <p class="shot-caption">Mobile at 380px: fixed 1200px container, horizontal scroll, unusable.</p>
+      <ul style="padding-left:18px; font-size:15px; color:var(--muted); margin:0;">
+        <li>Data lost on every refresh, save confirmation is fake</li>
+        <li>OpenAI API key shipped to every visitor</li>
+        <li>Adding two leads quickly silently drops one</li>
+        <li>Export, Settings, Bulk Email buttons do nothing</li>
+        <li>1101-line single component</li>
+      </ul>
+    </div>
+    <div class="col after">
+      <span class="col-label">After</span>
+      <img class="shot" src="case-assets/after-desktop.png" alt="Repaired app: clean light ledger-style dashboard" onerror="this.outerHTML='<div class=&quot;shot shot-placeholder&quot;>after-desktop.png</div>'" />
+      <p class="shot-caption">New "Ledger" direction: paper background, hairline borders, tabular numerals, pipeline rail.</p>
+      <img class="shot" src="case-assets/after-mobile.png" alt="Repaired responsive mobile view" onerror="this.outerHTML='<div class=&quot;shot shot-placeholder&quot;>after-mobile.png</div>'" />
+      <p class="shot-caption">Same screen at 380px: single column, everything reachable.</p>
+      <a class="demo-link" href="dist-after/index.html">Open live demo →</a>
+      <ul style="padding-left:18px; font-size:15px; color:var(--muted); margin:0;">
+        <li>Data truly persists; storage layer is a 2-function seam for a real backend</li>
+        <li>No secrets in the client; deterministic fit scoring</li>
+        <li>Race-free state updates, validated forms, honest UI</li>
+        <li>CSV export actually exports</li>
+        <li>10 focused files, thin 100-line App shell</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>The 12 findings</h2>
+  <p class="h2-sub">Triaged the way I quote real rescues: blockers first (the client sees these), traps second (the client can't see these - that's what they pay for), debt last.</p>
+  <ol class="findings">
+    <li><span class="sev blocker">Blocker</span> Fake persistence: all data in React state, "Synced to database" toast unconditional, POST to a dead URL swallowed by an empty catch.
+      <span class="fix">localStorage layer with an explicit backend seam; save failures surface to the user</span></li>
+    <li><span class="sev blocker">Blocker</span> Race conditions: every mutation wrapped in setTimeout over stale state - fast actions silently lose writes; duplicate ids break React keys.
+      <span class="fix">functional setState everywhere, crypto.randomUUID ids</span></li>
+    <li><span class="sev blocker">Blocker</span> Forms accept garbage: empty names, $NaN deal values that corrupt totals.
+      <span class="fix">field validation with inline errors; numbers parsed once, checked once</span></li>
+    <li><span class="sev trap">Trap</span> OpenAI API key hardcoded in the client bundle - extractable by any visitor in devtools.
+      <span class="fix">removed the client call entirely; rule-based scoring (deterministic, free, instant)</span></li>
+    <li><span class="sev trap">Trap</span> .env with a Supabase service_role key committed to git, no .gitignore.
+      <span class="fix">untracked + .gitignore; documented that rotation, not deletion, is the fix</span></li>
+    <li><span class="sev trap">Trap</span> Fake auth: any credentials log in, "admin123" hardcoded in the bundle, delete button hidden in UI only.
+      <span class="fix">honest labeled demo gate; no pretend security claims anywhere</span></li>
+    <li><span class="sev trap">Trap</span> Empty catch blocks and zero loading states - every failure is a silent frozen UI.
+      <span class="fix">every async path either succeeds visibly or fails visibly</span></li>
+    <li><span class="sev trap">Trap</span> README promises Supabase sync, RBAC, CSV export, mobile support - none exist.
+      <span class="fix">honest README: what it does, what it deliberately doesn't</span></li>
+    <li><span class="sev debt">Debt</span> No viewport meta, fixed 1200px layout, 3-column grid with min-width cards: broken below 900px.
+      <span class="fix">responsive grid from 380px, real media queries, tested at 380/900</span></li>
+    <li><span class="sev debt">Debt</span> Dead buttons: Export CSV, Bulk Email, Settings rendered with empty handlers.
+      <span class="fix">CSV export implemented for real; the other two removed - honest scope beats fake depth</span></li>
+    <li><span class="sev debt">Debt</span> 1101-line single component: all state, both modals, data layer and styling in one file, plus two dead Button components.
+      <span class="fix">split into 10 focused files; App is a 100-line shell</span></li>
+    <li><span class="sev debt">Debt</span> 343 KB bundle: moment + lodash + axios + uuid imported for one date format and two sums; console.log noise (including a partial API key) in production.
+      <span class="fix">all four dropped for native platform APIs - bundle down 55%</span></li>
+  </ol>
+
+  <h2>Measured, not claimed</h2>
+  <p class="h2-sub">Numbers from the build, not adjectives.</p>
+  <table>
+    <thead><tr><th>Metric</th><th>Before</th><th>After</th></tr></thead>
+    <tbody>
+      <tr><td>Data survives refresh</td><td class="before-val">No</td><td class="after-val">Yes</td></tr>
+      <tr><td>Secrets in client bundle</td><td class="before-val num">2 keys</td><td class="after-val num">0</td></tr>
+      <tr><td>Bundle size (gzip)</td><td class="before-val num">343 KB (114)</td><td class="after-val num">155 KB (50)</td></tr>
+      <tr><td>Runtime dependencies</td><td class="before-val num">6</td><td class="after-val num">2 (react, react-dom)</td></tr>
+      <tr><td>Largest component</td><td class="before-val num">1101 lines</td><td class="after-val num">~150 lines</td></tr>
+      <tr><td>Buttons that do nothing</td><td class="before-val num">3</td><td class="after-val num">0</td></tr>
+      <tr><td>Usable at 380px</td><td class="before-val">No</td><td class="after-val">Yes</td></tr>
+    </tbody>
+  </table>
+
+  <h2>The method</h2>
+  <p class="h2-sub">Same four phases on every rescue - because the visible bug is never the only bug.</p>
+  <div class="method">
+    <div class="step"><p class="n">01</p><h3>Audit</h3><p>Automated scan + manual walk of the one flow that must work. No fixes yet.</p></div>
+    <div class="step"><p class="n">02</p><h3>Triage</h3><p>Blocker / trap / cosmetic. Traps are the value: clients can't see them.</p></div>
+    <div class="step"><p class="n">03</p><h3>Repair</h3><p>One commit per fix, messages a founder can read. No silent scope creep.</p></div>
+    <div class="step"><p class="n">04</p><h3>Report</h3><p>Plain-language summary up top, technical appendix below. You're reading one.</p></div>
+  </div>
+
+  <div class="outro">
+    <div>
+      <h2>Have an app that's "90% done" for three months?</h2>
+      <p>This rescue took <span class="hours">~8 hours</span> end to end. The first step is always a fixed-price audit - you get this exact report for your codebase, whether or not we continue.</p>
+    </div>
+    <a class="cta" href="mailto:okoshko868@gmail.com">Get an audit</a>
+  </div>
+
+  <footer>
+    Full audit: <a href="AUDIT.md">AUDIT.md</a> · Decisions: <a href="DECISIONS.md">DECISIONS.md</a> ·
+    Commit history tells the story, one fix per commit · Nikita, frontend developer - GitHub
+    <a href="https://github.com/niki-deone">@niki-deone</a>
+  </footer>
+</div>
+</body>
+</html>
